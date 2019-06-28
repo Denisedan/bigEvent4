@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文章列表</title>
+    <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/iconfont.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="js/bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="common_title">
+            文章类别管理
+        </div>
+        <div class="container-fluid common_con">
+            <table class="table table-striped table-bordered table-hover mp20 category_table">
+                <thead>
+                    <tr>
+                        <th>名称</th>
+                        <th>Slug</th>
+                        <th class="text-center" width="100">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>未分类</td>
+                        <td>uncategorized</td>
+                        <td class="text-center">
+                            <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});"
+                                class="btn btn-info btn-xs">编辑</a>
+                            <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>奇趣事</td>
+                        <td>funny</td>
+                        <td class="text-center">
+                            <a href="javascript:editTr({&quot;id&quot;:&quot;2&quot;,&quot;slug&quot;:&quot;funny&quot;,&quot;name&quot;:&quot;奇趣事&quot;});"
+                                class="btn btn-info btn-xs">编辑</a>
+                            <a href="javascript:deleteTr( 2 );" class="btn btn-danger btn-xs">删除</a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>会生活</td>
+                        <td>living</td>
+                        <td class="text-center">
+                            <a href="javascript:editTr({&quot;id&quot;:&quot;3&quot;,&quot;slug&quot;:&quot;living&quot;,&quot;name&quot;:&quot;会生活&quot;});"
+                                class="btn btn-info btn-xs">编辑</a>
+                            <a href="javascript:deleteTr( 3 );" class="btn btn-danger btn-xs">删除</a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>爱旅行</td>
+                        <td>travel</td>
+                        <td class="text-center">
+                            <a href="javascript:editTr({&quot;id&quot;:&quot;4&quot;,&quot;slug&quot;:&quot;travel&quot;,&quot;name&quot;:&quot;爱旅行&quot;});"
+                                class="btn btn-info btn-xs ">编辑</a>
+                            <a href="javascript:deleteTr( 4 );" class="btn btn-danger btn-xs">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            <!-- a标签添加 data-toggle="modal"  出现bootstrop中模态框 -->
+                            <a href="#" class="btn btn-success btn-addCate" data-toggle="modal"
+                                data-target="#addModal">新增分类</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- 点击新增分类弹出模态框 -->
+    <div class="modal fade" id="addModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">新增分类</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <!-- 新增一个input来保存id 编辑的时候可以根据id获取对应的数据 给input的type设置为hidden隐藏域-->
+                        <input type="hidden" name="id" class="id">
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">分类名称:</label>
+                            <input type="text" class="form-control rec_name name" id="recipient-name" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">分类别名:</label>
+                            <input type="text" class="form-control rec_nick slug" id="recipient-name" name="slug">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="model_shutoff">关闭</button>
+                    <button type="button" class="btn btn-primary" id="model_add">新增</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#addModal').modal({
+            show: false,
+            backdrop: false
+        });
+        // // 弹出模态框中点击关闭
+        $('#model_shutoff').click(function () {
+            //模态框隐藏
+            $('#addModal').modal('hide');
+        });
+
+
+    </script>
+    <script src="./js/template-web.js"></script>
+    <script id="tmp" type="text/html">
+        <!-- 用v替代$value -->
+        {{each data v}}
+        <tr>
+            <td>{{v.name}}</td>
+            <td>{{v.slug}}</td>
+            <td class="text-center">
+                <!-- 自定义标签保存id -->
+                <a href="#" data-id = '{{v.id}}' class="btnbtn-info btn-xs btn-edit">编辑</a>
+                <a href="#" data-id = '{{v.id}}' class="btn btn-danger btn-xs btn-delect">删除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+    <script>
+        /*/
+      文章类别搜索 封装成函数
+        请求地址：http://localhost:8000/admin/category_search 网络地址: https://autumnfish.cn/big/admin/category_search
+        请求方式：get
+        请求参数：无
+        返回数据：
+        名称	类型	说明
+        id	number	类别
+        name	string	类别名称
+        slug	string	别名
+       */
+        function getCate() {
+            $.ajax({
+                url: 'http://localhost:8000/admin/category_search',
+                success: function (backData) {
+                    console.log(backData);
+                    if (backData.code == 200) {
+                        var res = template('tmp', backData);
+                        $('tbody').html(res);
+                    };
+                }
+            })
+        };
+
+        //页面进入 获取文章类别
+        getCate();
+
+
+        // 新增分类和编辑用的是同一个模态框 所以最后设置编辑 的标题会变成 修改分类 再点击新增分类按钮 依旧是 修改分类 所以我们要做判断 如果是点击了新增分类按钮 则标题为新增分类 模态框点击的时候判断
+
+
+        //弹出模态框中点击新增
+        /* 新增文章类别
+            请求地址：http://localhost:8000/admin/category_add
+            请求方式：post
+            请求参数：
+            名称	类型	说明
+            name	string	类别名称
+            slug	string	别名
+            返回数据：
+            名称	类型	说明
+            msg	string	文字信息 ‘增加成功’ ‘增加失败’
+        */
+
+        $('#model_add').click(function () {
+            if ($(this).hasClass('btn-success')) {
+                // 编辑按钮有btn-success的类  否则就是新增
+                //编辑按钮 根据id获取对应的数据 修改后之前的数据
+                
+               /* 
+               如果表单中数据过多需要获取 而且后代没有formData接收 那么我们设置jq中serialize方法表单序列化
+                var cateId = $('.modal-body .id').val();
+                var cateName = $('.modal-body .name').val();
+                var cateSlug = $('.modal-body .slug').val(); */
+                var data = $('form').serialize();
+                /* 
+            
+
+                编辑文章类别
+                请求地址：http://localhost:8000/admin/category_edit
+                请求方式：post
+                请求参数：
+                名称	类型	说明
+                id	number	文章 id
+                name	string	类别名称
+                slug	string	别名
+                返回数据：
+                名称	类型	说明
+                msg	string	文字信息 ‘编辑成功’ ‘编辑失败’
+                */
+                $.ajax({
+                    type: 'post',
+                    url: 'http://localhost:8000/admin/category_edit',
+                    // data: {
+                    //     id: cateId,
+                    //     name: cateName,
+                    //     slug: cateSlug
+                    // },
+                    data:data,
+                    success: function (backData) {
+                        console.log(backData);
+                        if (backData.code == 200) {
+                            getCate();
+                        }
+                    }
+                })
+            } else {
+                //新增
+                var rec_name = $('.rec_name').val();
+                var rec_nick = $('.rec_nick').val();
+                if ($('.form-group .rec_name').val() == '' || $('.form-group .rec_nick').val() == '') {
+                    alert('name或slug不能为空')
+                };
+                $('.form-group input').val('');
+
+                $.ajax({
+                    type: 'post',
+                    url: 'http://localhost:8000/admin/category_add',
+                    data: {
+                        name: rec_name,
+                        slug: rec_nick
+                    },
+                    success: function (backData) {
+                        console.log(backData);
+                        if (backData.code == 200) {
+                            // 新增成功 重新刷新页面也就是重新获取一次文章类别
+                            getCate();
+                        }
+                    }
+                })
+            }
+
+            //模态框隐藏
+            $('#addModal').modal('hide');
+        });
+
+
+        //页面上新增分类按钮 修改文本为新增分类和新增
+        $('.btn-addCate').on('click', function () {
+            $('#addModal .modal-title').html('新增分类');
+            $('#model_add').removeClass('btn-success').text('新增');
+        })
+
+        // 每一个编辑按钮都是动态添加的 所以需要委托他们的父元素触发点击事件
+        //编辑按钮有btn-success的类
+        $('tbody').on('click', '.btn-edit', function () {
+            $('#addModal .modal-title').html('修改分类');
+            $('#model_add').addClass('btn-success').text('保存');
+            // 获取编辑按钮自定义属性中的id
+            var id = $(this).attr('data-id');
+            console.log(id);
+            // 获取行内的数据
+            var cateName = $(this).parent().prev().prev().text();
+            var cateSlug = $(this).parent().prev().text();
+            // 设置给模态框
+            $('.modal-body .id').val(id);
+            $('.modal-body .name').val(cateName);
+            $('.modal-body .slug').val(cateSlug);
+
+            //隐藏模态框
+            $('#addModal').modal('show');
+
+        })      
+
+        //点击动态生成的删除按钮 删除行
+        $('tbody').on('click','.btn-delect',function(){
+            var that = $(this);
+            if(confirm('确定删除吗?')){
+                /* 
+                删除文章类别
+                请求地址：http://localhost:8000/admin/category_delete 
+                请求方式：post
+                请求参数：
+                名称	类型	说明
+                id	number	类别 id
+                返回数据：
+                名称	类型	说明
+                msg	string	文字信息 ‘删除成功’ ‘删除失败’
+                */
+            //    确定的话获取自定义属性中保存的id
+            var id = that.attr('data-id');
+            $.ajax({
+                type:'post',
+                url:'http://localhost:8000/admin/category_delete ',
+                data:{
+                    id:id,
+                },
+                success:function(backData){
+                    console.log(backData);
+                    if(backData.code==200){
+                        that.parent().parent().remove();
+                    }
+                }
+            })
+            }
+        })
+    </script>
+
+</body>
+
+</html>
