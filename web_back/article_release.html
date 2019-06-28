@@ -33,7 +33,12 @@
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
                     <div class="col-sm-10">
-                        <input type="file" id="exampleInputFile">
+                        <img src="./images/logo.png" alt="" height="150px";>
+                        <!-- 对input:file隐藏 然后用labelfor指向input的id 然后加入一张文件的图片 -->
+                        <input type="file" id="exampleInputFile" style="opacity: 0">
+                        <label for="exampleInputFile">
+                            <img src="./search.png" alt="" width="100px">
+                        </label>
                     </div>
                 </div>
                 <div class="form-group">
@@ -79,7 +84,42 @@
             </form>
         </div>
     </div>
+    <script src="./js/template-web.js"></script>
+    <script id="tmp" type="text/html">
+        {{each data v}}
+        <option value='{{v.id}}'>{{v.name}}</option>
+        {{/each}}
+    </script>
 
+    <script>
+        // 给按钮一个change事件 图片更改才会触发 实现图片预览
+        $('#exampleInputFile').on('change',function(){
+            var file = this.files[0];
+            var url = URL.createObjectURL(file);
+            $(this).prev().attr('src',url);
+        })
+
+        //页面一进来 获取文章类别搜索
+        /* 
+        文章类别搜索
+            请求地址：http://localhost:8000/admin/category_search
+            请求方式：get
+            请求参数：无
+            返回数据：
+            名称	类型	说明
+            id	number	类别
+            name	string	类别名称
+            slug	string	别名
+         */
+        $.ajax({
+            url:"http://localhost:8000/admin/category_search",
+            success:function(backData){
+                console.log(backData);
+                var res = template('tmp',backData);
+                $('.form-control').html(res)
+            }
+        })
+    </script>
 </body>
 
 </html>
