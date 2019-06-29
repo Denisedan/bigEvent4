@@ -241,7 +241,7 @@
 
 
                         <td class="text-center">
-                            <a href="post-edit.html?id=995" class="btn btn-default btn-xs">编辑</a>
+                            <a href="post-edit.html?id=995" class="btn btn-default btn-xs btn-edit">编辑</a>
                             <a href="#" class="btn btn-danger btn-xs">删除</a>
                         </td>
                     </tr>
@@ -335,12 +335,12 @@
         });
 
 
-        /*   $('tbody').on('click', '.btn-delete', function () {
+          $('tbody').on('click', '.btn-delete', function () {
               var that = $(this);
               var id = $(this).attr('data-id');
               console.log(id);
               
-                删除文章
+               /*  删除文章
                 请求地址：http://localhost:8000/admin/article_delete
                 请求方式：get
                 请求参数：
@@ -348,7 +348,7 @@
                 id	number	文章 id
                 返回数据：
                 名称	类型	说明
-                msg	string	文字信息 ‘删除成功’ ‘删除失败’
+                msg	string	文字信息 ‘删除成功’ ‘删除失败’ */
               
               $.ajax({
                   url: 'http://localhost:8000/admin/article_delete',
@@ -359,13 +359,16 @@
                       console.log(backData);
                       if (backData.code == 200) {
                           if (confirm('确定删除?')) {
-                              that.parent().parent().remove();
+                              //可以障眼法移除
+                            //   that.parent().parent().remove();
+                            //也可以重新渲染数据 删除后从当前页开始
+                            getData(window.currentPage)
                           }
                       }
                   }
               })
   
-          }) */
+          }) 
 
         //页面一进来触发筛选按钮 得到实际的列表
         //必须给所有分类和所有状态的value设置为空字符串 才能获取所有
@@ -446,7 +449,9 @@
                     if (myTotalPage != totalPages) {
                         // 不等 就把实际的赋值给假定的页码数
                         myTotalPage = totalPages;
-                        var currentPage = $pagination.twbsPagination('getCurrentPage');
+                        // var currentPage = $pagination.twbsPagination('getCurrentPage');
+                        //局部变量变全局
+                        window.currentPage = $pagination.twbsPagination('getCurrentPage');
                         // 这个方法会自动去调用onPageClick页码点击事件 所以会无限循环
                         //所以要加个判断 如果当前页数跟实际不等 就去调用 
                         $pagination.twbsPagination('destroy');
@@ -462,6 +467,8 @@
             })
         }
 
+
+      
     </script>
 
 </body>
