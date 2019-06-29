@@ -155,7 +155,7 @@
             content	string	文章内容
             */
             var formDate = new FormData($('form')[0]);
-            formDate.append('id',id);
+            formDate.append('id',id);            
             formDate.append('content',tinyMCE.activeEditor.getContent());
             $.ajax({
                 type: 'post',
@@ -165,9 +165,9 @@
                 data:formDate,
                 success:function(backData){
                     console.log(backData);
-                    if(backData.code == 200){
-                        alert('修改成功')
-                    }
+                    // if(backData.code == 200){
+                    //     alert('修改成功')
+                    // }
                 }
             })
         })
