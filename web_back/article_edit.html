@@ -131,11 +131,13 @@
             success: function (backData) {
                 console.log(backData);
                 //渲染到页面
+               if(backData.code==200){
                 $('.title').val(backData.data.title);
                 $('.article_cover').attr('src', backData.data.cover);
                 $('select.type').val(backData.data.type);
                 $('#rich_content').val(backData.data.content);
                 $('.date').val(backData.data.date);
+               }
             }
         })
         //点击修改 
@@ -154,16 +156,21 @@
             date	string	日期
             content	string	文章内容
             */
-            var formDate = new FormData($('form')[0]);
-            formDate.append('id',id);            
-            formDate.append('content',tinyMCE.activeEditor.getContent());
+            
+            var formData = new FormData($('form')[0]);
+            
+            formData.append('id',id);            
+            formData.append('content',tinyMCE.activeEditor.getContent());
+            console.log(formData);
+            
             $.ajax({
                 type: 'post',
                 url: 'http://localhost:8000/admin/article_edit',
                 contentType:false,
                 processData:false,
-                data:formDate,
+                data:formData,
                 success:function(backData){
+                   
                     console.log(backData);
                     // if(backData.code == 200){
                     //     alert('修改成功')

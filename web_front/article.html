@@ -204,7 +204,40 @@
         <p>CopyRight © 2019 深圳大事件信息技术股份有限公司 All Rights Reserved</p>
         <p>电话：0755-****888 粤ICP备*******8号</p>
     </div>
-
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./js/template-web.js"></script>
+    <script id="tmp" type="text/html">
+        {{data.author}} 发布于 {{data.date}}&nbsp;&nbsp;&nbsp;分类: {{data.type}}&nbsp;&nbsp;&nbsp;阅读:
+                ({{data.read}})&nbsp;&nbsp;&nbsp;评论: ({{data.comment}})
+    </script>
+    <script>
+    /* 
+    文章搜索
+    请求地址：http://localhost:8000/admin/search
+    请求方式：get
+    请求参数：
+    名称	类型	说明
+    id	number	文章 id，根据 id 查询时，其余参数可以不选择
+    */
+   //点击后跳转到对应的信息 id在url上
+   var id = window.location.search.split('=')[1];
+   $.ajax({
+       url:'http://localhost:8000/admin/search',
+       data:{
+           id:id
+       },
+       success:function(backData){
+           console.log(backData);
+           if(backData.code==200){
+               $('.article_title').text(backData.data.title);
+               var res = template('tmp',backData);
+               $('.article_info').html(res);
+               $('.article_con').html(backData.data.content)
+           }
+       }
+   })
+   
+    </script>
 </body>
 
 </html>
